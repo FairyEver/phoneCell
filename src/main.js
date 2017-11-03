@@ -4,6 +4,10 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
+import 'weui/dist/style/weui.css'
+
+import fastclick from 'fastclick'
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
@@ -13,3 +17,5 @@ new Vue({
   template: '<App/>',
   components: { App }
 })
+
+fastclick.attach(document.body)
