@@ -20,7 +20,7 @@
         </slot>
       </div>
     </div>
-    <img class="footerLogo" src="/static/logo/1.png">
+    <img class="footerLogo" src="static/logo/1.png">
   </div>
 </template>
 

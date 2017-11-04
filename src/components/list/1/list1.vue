@@ -5,14 +5,19 @@
       <div
         v-for="(item, index) in data"
         :key="index"
-        class="weui-media-box weui-media-box_appmsg">
+        class="weui-media-box weui-media-box_appmsg"
+        @click="detail(item.id)">
         <div class="weui-media-box__hd">
-          <phone :data="item" :size="phoneSize"></phone>
+          <phone v-if="mode === 'phone'" :data="item" :size="picSize"></phone>
+          <pad v-if="mode === 'pad'" :data="item" :size="picSize"></pad>
         </div>
         <div class="weui-media-box__bd">
           <h4 class="weui-media-box__title">{{item.title}}</h4>
-          <p class="weui-media-box__desc">{{item.subtitle}}</p>
-          <p class="weui-media-box__desc">{{item.subtitle2}}</p>
+          <p class="weui-media-box__desc" style="font-size:10px;">{{item.subtitle}}</p>
+          <p class="weui-media-box__desc price-line">
+            <span class="price-me">{{item.priceMe}}元</span>
+            <span class="price-offical">官网{{item.priceOffical}}</span>
+          </p>
         </div>
       </div>
     </div>
@@ -27,9 +32,11 @@
 
 <script>
 import phone from '@/components/phone/phone.vue'
+import pad from '@/components/pad/pad.vue'
 export default {
   components: {
-    phone
+    phone,
+    pad
   },
   props: {
     title: {
@@ -37,16 +44,42 @@ export default {
     },
     data: {
       default: () => []
+    },
+    mode: {
+      default: 'phone'
     }
   },
   data () {
     return {
-      phoneSize: {
+      picSize: {
         height: 60,
         width: 60
       }
     }
+  },
+  methods: {
+    detail (id) {
+      this.$router.push({
+        name: 'detail',
+        query: {
+          id
+        }
+      })
+    }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.price-line{
+  margin-top: 6px;
+}
+.price-me{
+  color: #FF3000;
+  font-weight: bold;
+}
+.price-offical{
+  color: #DADADA;
+}
+</style>
 

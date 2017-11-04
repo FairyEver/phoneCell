@@ -1,10 +1,18 @@
 <template>
   <layout-tab :tab="['iPhone', 'iPad', '其它']">
     <template slot="tab0">
-      <list :title="`iPhone价目表 ${updateDate}更新`" :data="dataPhone"></list>
+      <list :mode="'phone'" :title="`iPhone价目表 ${updateDate}更新`" :data="dataPhone"></list>
     </template>
-    <template slot="tab1"></template>
-    <template slot="tab2"></template>
+    <template slot="tab1">
+      <list :mode="'pad'" :title="`iPad价目表 ${updateDate}更新`" :data="dataPad"></list>
+    </template>
+    <template slot="tab2">
+      <div class="empty">
+        <i class="weui-icon-info weui-icon_msg"></i>
+        <p class="info">暂时主要经营 iPhone iPad 产品</p>
+        <p class="info-sub">其它电子设备请单独咨询我们</p>
+      </div>
+    </template>
   </layout-tab>
 </template>
 
@@ -23,32 +31,47 @@ export default {
   },
   data () {
     return {
-      dataMain,
+      dataMain: dataMain.map((e, index) => {
+        e.id = index
+        return e
+      }),
       updateDate
     }
   },
   computed: {
     dataPhone () {
       return this.dataMain.filter(e => e.type === 'iPhone').map(e => {
-        let model = e.model
-        if (model === 'se') {
-          model = 'SE'
-        }
-        if (model === '-x') {
-          model = 'X'
-        }
-        if (model.split('-').length === 2) {
-          model = model.split('-').join(' ')
-        }
-        e.title = 'iPhone ' + model
+        e.title = 'iPhone ' + this.$root.modelMaker(e.model)
         e.subtitle = e.color + '色 ' + e.disk + 'GB'
-        e.subtitle2 = e.priceMe
+        return e
+      })
+    },
+    dataPad () {
+      return this.dataMain.filter(e => e.type === 'iPad').map(e => {
+        e.title = 'iPad ' + this.$root.modelMaker(e.model)
+        e.subtitle = e.color + '色 ' + e.disk + 'GB'
         return e
       })
     }
-  },
-  mounted () {
-    console.log(this.dataPhone)
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.empty{
+  height: 100vw;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  .info{
+    margin-top: 20px;
+    font-size: 14px;
+  }
+  .info-sub{
+    font-size: 10px;
+  }
+}
+</style>
+

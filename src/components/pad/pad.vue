@@ -28,7 +28,7 @@ export default {
       default: 'small'
     },
     pathBase: {
-      default: 'static/apple/phone/'
+      default: 'static/apple/pad/'
     },
     av: {
       default: '1'
@@ -36,45 +36,28 @@ export default {
   },
   data () {
     return {
-      // 注意 iPhone8的 深空灰 叫 spgray
       color: [
         {ch: '深空灰', en: 'gray'},
         {ch: '银', en: 'silver'},
         {ch: '金', en: 'gold'},
-        {ch: '玫瑰金', en: 'rosegold'},
-        {ch: '黑', en: 'black'},
-        {ch: '亮黑', en: 'jetblack'}
-      ],
-      date: [
-        {model: '-x', date: '2017'},
-        {model: '6s', date: '2015'},
-        {model: '6s-plus', date: '2015'},
-        {model: '7', date: '2016'},
-        {model: '7-plus', date: '2016'},
-        {model: '8', date: '2017'},
-        {model: '8-plus', date: '2017'},
-        {model: 'se', date: '2016'}
+        {ch: '玫瑰金', en: 'rosegold'}
       ]
     }
   },
   computed: {
     urlMaker () {
       // 生成图片壁纸
-      let color = this.color.find(e => e.ch === this.data.color).en
-      if (((this.data.model === '8') || (this.data.model === '8-plus')) && (this.data.color === '深空灰')) {
-        color = 'spgray'
+      // '/static/apple/pad/small/ipad-pro-10in-gold.png'
+      let model = '-' + this.data.model
+      if (this.data.model === 'ipad') {
+        model = ''
       }
       return this.pathBase +
         this.quality +
-        '/iphone' +
-        this.data.model +
+        '/ipad' +
+        model +
         '-' +
-        color +
-        '-select' +
-        '-' +
-        this.date.find(e => e.model === this.data.model).date +
-        '_AV' +
-        this.av +
+        this.color.find(e => e.ch === this.data.color).en +
         '.png'
     },
     bodyStyle () {
